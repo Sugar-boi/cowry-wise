@@ -1,0 +1,120 @@
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+  @font-face {
+      font-family: "Rency";
+      src: url("Rency.woff2") format("woff2");
+      font-weight: normal;
+      font-style: normal;
+  }
+
+  body {
+      font-family: "Poppins", sans-serif;
+      font-family: "Rency", sans-serif;
+      margin: 90px 170px;
+
+      background-color: rgb(245, 247, 250);
+      background-image: url(auth-bg.svg);
+      background-repeat: no-repeat;
+      /* background-size: */
+      background-position: right center;
+      /* width: 100%; */
+      min-height: 150vh;
+  }
+
+  .signup-ar {
+      /* width: 59%; */
+      padding: 72px 10px;
+  }
+
+  .sign-content {
+      margin-top: 75px;
+  }
+
+  .signup-ar h1 {
+      font-size: 64px;
+      color: rgb(10, 46, 101);
+      font-weight: 600;
+  }
+
+  .signup-ar p {
+      margin-top: 25px;
+      font-size: 15px;
+      color: grey;
+  }
+
+  .g-signup a {
+      padding: 10px 30px;
+  }
+
+  .dim img {
+      width: 25px;
+  }
+
+  .help {
+      flex-direction: end;
+  }
+
+  .h55 {
+      color: #0A2E65;
+      font-size: 24px;
+      font-weight: 600;
+  }
+
+  .siden p {
+      color: RGB(108, 130, 163);
+      font-size: 16px;
+      font-weight: 400;
+  }
+
+  .or {
+      color: grey;
+  }
+
+  @media (max-width: 812px) {
+      body {
+          margin: 0;
+          padding: 0;
+      }
+
+      .signup-ar {
+          width: auto;
+          /* padding: 72px 10px; */
+      }
+
+      .signup-ar h1 {
+          font-size: 28px;
+      }
+
+
+      .sign-content {
+          flex-direction: column;
+          margin-top: auto;
+          gap: 1 !important;
+      }
+
+      .ok {
+          flex-direction: column;
+          gap: 20px;
+      }
+
+      .help {
+          float: left;
+      }
+
+      .siden h5 {
+          display: none;
+      }
+
+  }
+
+  @media (min-width: 768px) and (max-width: 1097px) {
+      .sign-content {
+          flex-direction: column;
+          margin-top: auto;
+          gap: 1 !important;
+      }
+  }
