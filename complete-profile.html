@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile</title>
+    <link rel="stylesheet" href="complete-profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script>
+        (function () {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+
+            if (!userData || (!userData.email && !userData.displayName)) {
+                setTimeout(() => {
+                    window.location.href = 'signup.html';
+                }, 500);
+            }
+        })();
+    </script>
+</head>
+
+<body>
+
+
+    <div class="left-section">
+        <div class="logo">
+            <img src="images/download (19).svg" alt="">
+        </div>
+        <div class="container">
+            <div class="left-section">
+                <div class="form-card">
+                    <h2>Complete your profile</h2>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <input type="text" id="firstName" placeholder="Legal First Name" required>
+                            <label for="firstName">Legal First Name</label>
+                            <span class="error-message" id="firstNameError"></span>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="lastName" placeholder="Legal Last Name" required>
+                            <label for="lastName">Legal Last Name</label>
+                            <span class="error-message" id="lastNameError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group icon-input">
+                            <input type="text" id="username" placeholder="@username" required>
+                            <label for="username">@username</label>
+                            <i class="fa-regular fa-user input-icon"></i>
+                            <span class="error-message" id="usernameError"></span>
+                        </div>
+                        <div class="input-group icon-input">
+                            <input type="tel" id="phone" placeholder="Phone Number" required>
+                            <label for="phone">Phone Number</label>
+                            <i class="fa-solid fa-mobile-screen-button input-icon"></i>
+                            <span class="error-message" id="phoneError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group icon-input full-width">
+                            <input type="password" id="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                            <i class="fa-regular fa-eye input-icon toggle-password"></i>
+                            <span class="error-message" id="passwordError"></span>
+                        </div>
+                    </div>
+
+                    <div class="invite-code">
+                        <a href="#">Got an invite code?</a>
+                    </div>
+
+
+
+                    <div class="toggle-container">
+                        <span class="toggle-label">
+                            Make my account Halal
+                            <i id="halalIcon" class="fa-regular fa-circle-question"></i>
+                        </span>
+                        <label class="switch">
+                            <input type="checkbox" id="halalToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="modal-overlay" id="modalOverlay">
+                        <div class="modal-card">
+                            <button class="close-btn" id="closeBtn">&times;</button>
+                            <div class="halal-icon">&#x062D;&#x0644;&#x0627;&#x0644;</div>
+                            <h2 class="modal-title">Halal Account</h2>
+                            <p class="modal-description">
+                                Halal accounts are great for muslims who want only Shariah-compliant investments and no
+                                interest on their savings.
+                            </p>
+                            <div class="modal-actions">
+                                <button class="got-it-btn" id="gotItBtn">Got It</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="terms-text">
+                        By tapping on 'Create Account', you agree to our <a href="#">Terms and Conditions</a> and <a
+                            href="#">Privacy Policy</a>
+                    </p>
+                    <div class="submit-btn">
+                        <button id="submitBtn" onclick="createAcc()">Create account</button>
+                    </div>
+
+                </div>
+                <div class="footer-left">
+                    <div class="footer-license" style="display: flex;gap: 100px;">
+                        <div style="display: flex;align-items: center;gap: 7px;">
+                            <img style="width: 7%;" src="images/imageye___-_imgi_1_sec-logo.uViKvy1J.png" alt="">
+                            <span class="sec-compliance"> Cowrywise is licensed
+                                by the
+                                SEC</span>
+
+                        </div>
+                        <div class="footer-right">
+                            <a href="#" class="help-link">Need Help?</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="display1" style="display: none;">
+                <span style="text-align: justify;font-weight: 600;color: 
+#042E68;">Trusted by over a million people like you
+                    to save and invest</span>
+            </div>
+
+            <div class="right-section">
+                <div class="testimonial-container">
+                    <h1>Invest with over 1 million customers like you</h1>
+                    <p class="testimonial-quote">Wow, great app. It's the most reliable, trustworthy, saving and
+                        investment platform.</p>
+                    <p class="testimonial-author">Precious Nmessomma</p>
+                    <div class="avatar">
+                        <img src="images/precious.png" alt="Precious">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</body>
+<script>
+
+    const firstNameInput = document.getElementById('firstName');
+    const lastNameInput = document.getElementById('lastName');
+    const usernameInput = document.getElementById('username');
+    const phoneInput = document.getElementById('phone');
+    const passwordInput = document.getElementById('password');
+
+    const firstNameError = document.getElementById('firstNameError');
+    const lastNameError = document.getElementById('lastNameError');
+    const usernameError = document.getElementById('usernameError');
+    const phoneError = document.getElementById('phoneError');
+    const passwordError = document.getElementById('passwordError');
+    const submitBtn = document.getElementById('submitBtn');
+
+    firstNameInput.addEventListener('input', validateForm);
+    lastNameInput.addEventListener('input', validateForm);
+    usernameInput.addEventListener('input', validateForm);
+    phoneInput.addEventListener('input', validateForm);
+    passwordInput.addEventListener('input', validateForm);
+
+
+    function validateForm() {
+        if (firstNameInput.value.trim().length === 0) {
+            firstNameError.textContent = "";
+            firstNameInput.classList.remove('invalid');
+        } else if (firstNameInput.value.trim().length < 4) {
+            firstNameError.textContent = "First name must be above 3 characters.";
+            firstNameInput.classList.add('invalid');
+        } else {
+            firstNameError.textContent = "";
+            firstNameInput.classList.remove('invalid');
+        }
+
+
+        if (lastNameInput.value.trim().length === 0) {
+            lastNameError.textContent = "";
+            lastNameInput.classList.remove('invalid');
+        } else if (lastNameInput.value.trim().length < 4) {
+            lastNameError.textContent = "Last name must be above 3 characters.";
+            lastNameInput.classList.add('invalid');
+        } else {
+            lastNameError.textContent = "";
+            lastNameInput.classList.remove('invalid');
+        }
+
+        if (usernameInput.value.trim().length === 0) {
+            usernameError.textContent = "";
+            usernameInput.classList.remove('invalid');
+        } else if (usernameInput.value.trim().length < 4) {
+            usernameError.textContent = "Username must be above 3 characters.";
+            usernameInput.classList.add('invalid');
+        } else {
+            usernameError.textContent = "";
+            usernameInput.classList.remove('invalid');
+        }
+
+
+        if (phoneInput.value.trim().length === 0) {
+            phoneError.textContent = "";
+            phoneInput.classList.remove('invalid');
+        } else if (phoneInput.value.trim().length < 7) {
+            phoneError.textContent = "Please enter a valid phone number.";
+            phoneInput.classList.add('invalid');
+        } else {
+            phoneError.textContent = "";
+            phoneInput.classList.remove('invalid');
+        }
+
+
+        if (passwordInput.value.trim().length === 0) {
+            passwordError.textContent = "";
+            passwordInput.classList.remove('invalid');
+        } else if (passwordInput.value.trim().length < 7) {
+            passwordError.textContent = "Password must be above 6 characters.";
+            passwordInput.classList.add('invalid');
+        } else {
+            passwordError.textContent = "";
+            passwordInput.classList.remove('invalid');
+        }
+
+
+        const allFilled = firstNameInput.value.trim() && lastNameInput.value.trim() && usernameInput.value.trim() && phoneInput.value.trim() && passwordInput.value.trim();
+        const hasErrors = firstNameInput.classList.contains('invalid') || lastNameInput.classList.contains('invalid') || usernameInput.classList.contains('invalid') || phoneInput.classList.contains('invalid') || passwordInput.classList.contains('invalid');
+
+        if (allFilled && !hasErrors) {
+            submitBtn.disabled = false;
+            submitBtn.style.backgroundColor = '#0067F5'
+            submitBtn.style.cursor = 'pointer';
+            // createAcc();
+
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.style.backgroundColor = '#7aa9ff'
+            submitBtn.style.cursor = 'not-allowed';
+
+            // window.location.href = 'EnterPin.html';
+        }
+    }
+
+    function createAcc() {
+        const userData = JSON.parse(localStorage.getItem('userData')) || {};
+        const firstName = firstNameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
+        const fullName = [firstName, lastName].filter(Boolean).join(' ').trim();
+
+        // Save profile data
+        const profileData = {
+            ...userData,
+            firstName,
+            lastName,
+            username: usernameInput.value.trim(),
+            phone: phoneInput.value.trim(),
+            password: passwordInput.value.trim(),
+            pin: localStorage.getItem('userPin') || null,
+            isHalal: document.getElementById('halalToggle').checked,
+            createdAt: new Date().toISOString()
+        };
+
+        localStorage.setItem('userData', JSON.stringify(profileData));
+        localStorage.setItem('userEmail', profileData.email || profileData.username);
+        localStorage.setItem('currentUserName', fullName || profileData.firstName || profileData.email || 'User');
+        localStorage.setItem('userDisplayName', fullName || profileData.firstName || profileData.email || 'User');
+
+        // Save to persistent accounts list (for login purposes)
+        const allUserAccounts = JSON.parse(localStorage.getItem('allUserAccounts')) || [];
+
+        // Check if account already exists (by email)
+        const existingIndex = allUserAccounts.findIndex(acc => acc.email === profileData.email);
+
+        if (existingIndex >= 0) {
+            // Update existing account
+            allUserAccounts[existingIndex] = profileData;
+        } else {
+            // Add new account
+            allUserAccounts.push(profileData);
+        }
+
+        localStorage.setItem('allUserAccounts', JSON.stringify(allUserAccounts));
+
+        setTimeout(() => {
+            window.location.href = 'EnterPin.html';
+        }, 500);
+    }
+
+
+    const halalToggle = document.getElementById('halalToggle');
+    const halalIcon = document.getElementById('halalIcon');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const closeBtn = document.getElementById('closeBtn');
+    const gotItBtn = document.getElementById('gotItBtn');
+
+    function openModal() {
+        modalOverlay.style.display = 'block';
+    }
+
+    function closeModal() {
+        modalOverlay.style.display = 'none';
+        halalToggle.checked = true;
+    }
+
+    halalToggle.addEventListener('click', function () {
+        if (this.checked) {
+            openModal();
+        }
+    });
+
+    halalIcon.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    gotItBtn.addEventListener('click', closeModal);
+
+    modalOverlay.addEventListener('click', function (e) {
+        if (e.target === modalOverlay) {
+            closeModal();
+        }
+    });
+
+    // Password toggle visibility
+    const togglePasswordIcon = document.querySelector('.toggle-password');
+    if (togglePasswordIcon) {
+        togglePasswordIcon.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordIcon.classList.remove('fa-eye');
+                togglePasswordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordIcon.classList.remove('fa-eye-slash');
+                togglePasswordIcon.classList.add('fa-eye');
+            }
+        });
+    }
+
+</script>
+
+</html>

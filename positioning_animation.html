@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=!, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .grp-cont {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px 50px;
+        }
+
+        .info {
+            justify-content: space-between;
+            display: flex;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .item {}
+
+        .progress {
+            height: 10px;
+            background-color: grey;
+            border-radius: 10px;
+            position: relative;
+            width: 100%;
+
+        }
+
+        .progress span {
+            height: 100%;
+            background: linear-gradient(to right, rgb(13, 13, 228), rgb(234, 50, 50));
+            position: absolute;
+            border-radius: 10px;
+        }
+
+        nav {
+            justify-content: space-between;
+            background: white;
+            display: flex;
+            padding: 10px 100px;
+            padding-left: 0;
+            align-items: center;
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav h1 {
+            font-size: 70px;
+
+        }
+
+        .nav_links {
+            text-decoration: none;
+        }
+
+        ul {
+            /* text-decoration: none; */
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            lis
+        }
+
+        li {
+            /* text-decoration: none; */
+            font-size: 20px;
+
+        }
+
+        nav button {
+            /* display: block; */
+            height: 30px;
+            width: 100px;
+            color: green;
+            background-color: bisque;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 4px;
+            background-color: grey;
+            transition: 0.5s;
+        }
+
+        @media (max-width:768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            #nav_menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                right: 0;
+                left: auto;
+                width: 180px;
+                background-color: rgb(50, 67, 81);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px(rgba(0, 0, 0, 0.1));
+                z-index: 1000;
+
+            }
+
+          #nav_menu.active {
+                display: flex !important;
+            }
+        }
+    </style>
+</head>
+
+<body bgcolor="lightblue">
+    <!-- position is the proper arrangement of element on the page -->
+    <!-- position is the alignment of element on a specific part/place on our page -->
+    <!-- Static is the default positioning -->
+    <!-- fixed is when element is permanently placed -->
+    <!-- <div class="grid-container">
+        <div class="grid-item"> </div>
+        <div class="grid-item"> </div>
+        <div class="grid-item"> </div>
+        <div class="grid-item"> </div>
+        <div class="grid-item"> </div>
+        <div class="grid-item"> </div>
+        <div class="grid-item"> </div>
+        <div class="grid-item"> </div>
+    </div> -->
+    <nav>
+        <h1> Logo</h1>
+        <ul id="nav_menu">
+            <li> <a class="nav_links" href="#"> Home</a></li>
+            <li> <a class="nav_links" href="#"> About</a></li>
+            <li> <a class="nav_links" href="#"> Blog</a></li>
+            <li> <a class="nav_links" href="#"> Service</a></li>
+            <li> <a class="nav_links" href="#"> FAQs</a></li>
+        </ul>
+        <button type="submit"> Get Started</button>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </nav>
+
+
+    <div class="grp-cont">
+        <div class="item">
+            <div class="info">
+                <span> HTML</span>
+                <span> 90%</span>
+            </div>
+            <div class="progress">
+                <span style="width:90%;"> </span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="info">
+                <span> CSS</span>
+                <span>80%</span>
+            </div>
+            <div class="progress">
+                <span style="width:80%;"> </span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="info">
+                <span> Javascript</span>
+                <span> 40%</span>
+            </div>
+            <div class="progress">
+                <span style="width:40%;"> </span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="info">
+                <span> PHP</span>
+                <span> 20%</span>
+            </div>
+            <div class="progress">
+                <span style="width:20%;"> </span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="info">
+                <span> Phython</span>
+                <span> 10%</span>
+            </div>
+            <div class="progress">
+                <span style="width:20%;"> </span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="info">
+                <span> NodeJS</span>
+                <span> 10%</span>
+            </div>
+            <div class="progress">
+                <span style="width:20%;"> </span>
+            </div>
+        </div>
+    </div>
+    <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, architecto voluptatibus optio hic expedita eius.
+        Qui debitis autem nostrum optio tempore aperiam officiis doloremque quidem dolor labore ducimus suscipit
+        assumenda fugit sequi commodi sint necessitatibus nihil voluptates, earum modi eius illo repellat. Possimus,
+        odit. Vel voluptates officia temporibus aut! Deleniti fugit molestiae exercitationem autem sequi voluptates vero
+        inventore sit quisquam laudantium. Dolore autem porro excepturi. Nam in delectus cum minus assumenda labore
+        ratione maiores ipsam illum vel, voluptate recusandae cumque harum exercitationem libero veritatis quos
+        blanditiis amet. Quis inventore quo non aspernatur, similique facilis quaerat! Sed accusamus officiis
+        perspiciatis, quaerat quam voluptates corporis, tempora harum dolorum, architecto ipsa earum minus nulla
+        repellendus impedit natus quod amet dolores excepturi deleniti temporibus! Architecto nisi iste nihil neque
+        necessitatibus eos qui ab voluptate similique veritatis molestias sed provident autem, praesentium cum,
+        doloribus dicta ducimus sequi. Quam obcaecati soluta iure earum velit delectus aliquam explicabo ipsam dolorem
+        voluptates! Culpa ducimus a amet eum laudantium eius accusantium! Illum fugiat fuga dolores voluptatum ut
+        expedita laborum. Cumque voluptatem vel maxime. Libero reiciendis nulla, perspiciatis magnam quo veritatis,
+        incidunt, aspernatur placeat molestias accusamus dolores optio. Quos, quae dolorum. Obcaecati placeat quod
+        architecto excepturi ipsum exercitationem minus aliquid quibusdam. Ut quia quae molestiae perferendis dolores
+        veniam quo optio quisquam iste ullam quas quam incidunt corporis delectus sed id neque alias, aliquam debitis
+        odit! Dignissimos nam odio ipsum cupiditate aut aliquid. Hic consequatur odit quidem fugiat, iste ullam nulla
+        maxime, sint placeat autem reiciendis ut tempore nam dignissimos quaerat nobis? Repellat explicabo animi porro
+        optio, quae itaque, numquam doloribus dolore amet, consectetur mollitia aliquid vitae ratione officia est nulla!
+        Culpa consectetur rem corporis quae provident repudiandae quidem dolores accusamus amet nobis? Nemo sint dolores
+        libero rem dolor laborum eius voluptatibus architecto ab beatae maiores tempora mollitia sed natus, corrupti
+        tempore perspiciatis molestias ipsam unde velit repellat, suscipit expedita minima. Dicta culpa minima unde
+        rerum sint fuga assumenda provident aliquid, nihil facilis quis vitae. Id dolorum molestias magnam quisquam
+        dolor, tenetur ipsa? Facere blanditiis repudiandae laudantium saepe temporibus amet. Fugit quod nisi et dolores
+        corporis voluptatibus? Laborum officiis placeat libero nulla perferendis magnam alias architecto vel deserunt
+        beatae soluta autem magni, voluptatibus similique voluptatum optio nihil provident tempora nostrum, possimus
+        itaque modi! Explicabo corrupti voluptates quidem, saepe labore suscipit eius amet sequi hic soluta reiciendis,
+        ad aperiam voluptatum eos sint. Eveniet voluptas nam incidunt, similique eius magni sunt quae aliquid autem
+        mollitia, error temporibus, culpa nobis vitae consequatur adipisci. Quae, beatae odio. Consequatur quisquam illo
+        voluptas minima. Consequatur, commodi laudantium ut voluptate quaerat quis, cumque illo amet, magni totam
+        laborum unde vitae nihil ipsam cupiditate non voluptas rerum. Laudantium eveniet facere veniam nemo sed dicta
+        similique. Deleniti at quae, odio sint eveniet aliquid recusandae quam quibusdam impedit nisi consequuntur
+        fugiat sapiente voluptates voluptate incidunt optio eaque, eos delectus molestiae architecto facere dolorum
+        commodi, quisquam veniam! Dolores atque nam doloremque alias! Sapiente similique quis voluptatum, ea commodi,
+        consequuntur a officia illum vitae esse mollitia impedit modi sunt veniam illo eligendi laboriosam corrupti
+        reiciendis nulla, assumenda voluptate error dolores fugiat. Quia odit, ipsam dignissimos maiores facilis ratione
+        corrupti, dicta minus, quibusdam doloribus repellendus harum eius ab assumenda amet neque. Libero, omnis cumque.
+        Distinctio amet nostrum commodi accusantium aliquam dolorem, velit quaerat non. Temporibus, asperiores
+        architecto eum nulla nobis voluptates id cum quis aut necessitatibus facere, praesentium blanditiis alias
+        repellat voluptate minus quod corrupti voluptatum natus quia officia dolorum recusandae a laudantium. Quia
+        molestiae sed nam iure accusantium eveniet sit odio possimus sequi tempora, doloribus nulla incidunt. Ea modi
+        eius laborum, sed eum dolorem, nam aut officia natus vero possimus quia rem doloremque impedit similique
+        corrupti maiores. Maiores harum error ipsum, porro assumenda cum quas ipsa quasi eaque illo repellendus dolorum
+        quia debitis soluta veritatis reprehenderit eos itaque nihil optio esse dolorem earum? Magni vel consectetur at,
+        rerum velit quibusdam repellat consequatur facilis dolor ad consequuntur, omnis eveniet officiis iusto qui
+        aperiam iste veniam, blanditiis id libero? Maxime sint doloremque placeat nobis eum, accusamus dolor mollitia
+        unde quas excepturi quo obcaecati, ipsam voluptate, optio ex corporis? Ipsa cum eum provident asperiores
+        voluptatibus, cumque numquam quas cupiditate dolor in nobis expedita, dolore, quo accusantium. Harum qui soluta
+        odit, cupiditate inventore, voluptates dignissimos, accusantium consectetur maiores quas dolor impedit illo
+        accusamus quaerat? Neque nesciunt, rem ut hic, molestias delectus doloremque aperiam deleniti tempora ducimus
+        cupiditate quaerat incidunt veniam dolore facere et. Dolorum quae sed perspiciatis delectus aliquam alias
+        sapiente tempora unde corrupti aut. Ducimus aliquam ratione sunt iste consequuntur facilis hic eum voluptates
+        voluptas. Aliquam eaque, reiciendis recusandae et modi voluptatibus. Mollitia tenetur incidunt, quos modi quis
+        quibusdam? Optio architecto facere nam praesentium voluptatum vero deleniti nulla tempore eos, tempora amet,
+        numquam recusandae quo rerum culpa quidem maxime animi quisquam laboriosam fuga qui voluptatibus consequuntur
+        vel sed! Quam, quas, animi iusto ipsum quaerat numquam est quia debitis inventore sed necessitatibus incidunt
+        sint explicabo officiis suscipit dolores quibusdam dolore aspernatur voluptatibus, similique optio? Quod,
+        quaerat? Saepe voluptatem placeat nesciunt obcaecati corporis officia doloribus sint magni cumque recusandae
+        earum voluptatum, aperiam officiis rem impedit illum alias cum enim nihil incidunt molestias itaque excepturi
+        deleniti! Optio, non quasi ut dolor, quam assumenda dolore aliquam tenetur ducimus numquam quibusdam maxime
+        sequi nobis placeat rerum dicta perspiciatis esse totam reprehenderit debitis eveniet distinctio. Fuga, cum
+        soluta! Accusamus, dolores eligendi quia at quibusdam nisi odio repellat iste, fugit fugiat eos omnis! Quo rem
+        non deserunt quidem reprehenderit corrupti suscipit, odit, nam dicta mollitia eum repudiandae dolore tempore
+        fugit, eveniet minus expedita animi consequuntur. Consequatur repellat corrupti ipsam optio cumque quia eaque
+        qui. Exercitationem labore eaque doloremque consequuntur suscipit provident recusandae saepe? Autem est rem
+        tempore, voluptas porro nulla rerum repudiandae adipisci cupiditate blanditiis dolores velit, ducimus expedita
+        veniam, dolore odit qui totam magni fugit! Qui ad debitis sunt! Voluptate repudiandae obcaecati expedita quasi
+        rerum! Officiis aspernatur sunt iure deserunt laborum sit omnis? Sequi deserunt numquam laboriosam, iure
+        explicabo quas. A id eius, praesentium vel iure sunt tenetur architecto saepe laudantium provident illo sint
+        libero, asperiores temporibus at magnam dolorem! Eius, assumenda.</p>
+</body>
+
+</html>

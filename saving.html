@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cowrywise - Fund Wallet</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="saving.css">
+    <script src="https://js.paystack.co/v2/inline.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script>
+        // Route Protection - Redirect if not authenticated
+        (function() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            const userPin = localStorage.getItem('userPin');
+            
+            // Check if user is properly authenticated
+            if (!userData || !userData.firstName || !userData.password || !userPin) {
+                // User is not authenticated - redirect to login
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 500);
+            }
+        })();
+    </script>
+</head>
+
+<body>
+
+    <main class="main-container">
+
+        <section class="left-section">
+            <h1 class="main-heading">Start saving by<br>funding your wallet</h1>
+
+            <p class="sub-heading">How much would you like to start with?</p>
+
+            <div class="amount-container">
+                <span class="naira-symbol">₦</span>
+                <input type="text" placeholder="0" id="amountInput" autocomplete="off" inputmode="numeric">
+            </div>
+
+            <div id="errorMessage" class="error-msg">Amount is less than 1,000 Naira</div>
+
+            <div id="feeBadge" class="fee-badge">
+                <span id="feeAmountText">₦15.00</span> processing fee
+            </div>
+
+            <div class="control-wrapper">
+                <button id="fundWalletBtn" type="button">Fund wallet</button>
+                <button id="backBtn" type="button" class="btn-link">Back</button>
+            </div>
+        </section>
+        <section class="right-section">
+            <img src="images/imageye___-_imgi_3_OnboardingQuiz%252Fsavings_rack%20(2).png" alt="Savings illustration">
+        </section>
+
+
+    </main>
+
+    <footer class="legal-footer">LICENSED BY THE SEC</footer>
+
+</body>
+<script>
+    function showToast(message, type = "info") {
+        const colors = {
+            success: "linear-gradient(135deg, #16a34a, #22c55e)",
+            error: "linear-gradient(135deg, #dc2626, #f97316)",
+            info: "linear-gradient(135deg, #0066ff, #38bdf8)"
+        };
+
+        if (typeof Toastify === "function") {
+            Toastify({
+                text: message,
+                duration: 3500,
+                gravity: "top",
+                position: "right",
+                close: true,
+                stopOnFocus: true,
+                style: {
+                    background: colors[type] || colors.info,
+                    borderRadius: "8px",
+                    color: "#ffffff",
+                    fontWeight: "800",
+                    padding: "14px 16px"
+                }
+            }).showToast();
+            return;
+        }
+
+        console.log(message);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const amountInput = document.getElementById("amountInput");
+        const errorMessage = document.getElementById("errorMessage");
+        const feeBadge = document.getElementById("feeBadge");
+        const feeAmountText = document.getElementById("feeAmountText");
+        const fundWalletBtn = document.getElementById("fundWalletBtn");
+        const backBtn = document.getElementById("backBtn");
+
+        // Navigation fallback route processing
+        backBtn.addEventListener("click", () => {
+            window.location.href = "welcome.html";
+        });
+
+        // Enforce only digits into raw dynamic input sequence string data
+        amountInput.addEventListener("input", (e) => {
+            let cleanValue = e.target.value.replace(/[^0-9]/g, "");
+            e.target.value = cleanValue;
+
+            let numericAmount = parseInt(cleanValue, 10);
+
+            if (!cleanValue || isNaN(numericAmount) || numericAmount === 0) {
+                errorMessage.style.display = "none";
+                feeBadge.style.display = "none";
+                return;
+            }
+
+            // Processing rules evaluation engine threshold 
+            if (numericAmount < 1000) {
+                errorMessage.style.display = "block";
+                feeBadge.style.display = "none";
+            } else {
+                errorMessage.style.display = "none";
+
+                // Calculate a 1.5% processing fee like real billing aggregators
+                let structuralFee = numericAmount * 0.015;
+
+                // Render structured values localized precisely to decimal standard representation
+                feeAmountText.textContent = "₦" + structuralFee.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                feeBadge.style.display = "inline-block";
+            }
+        });
+
+        // Paystack Checkout Framework Gateway Execution
+        fundWalletBtn.addEventListener("click", () => {
+            const entryValue = amountInput.value.trim();
+            const finalNumericAmount = parseInt(entryValue, 10);
+
+            if (!entryValue || isNaN(finalNumericAmount) || finalNumericAmount < 1000) {
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            const userEmailRecord = localStorage.getItem("userEmail") || "customer@example.com";
+            const finalAmountInKobo = Math.round((finalNumericAmount * 1.015) * 100);
+
+            const paystack = PaystackPop.setup({
+                key: "pk_test_c20384d327f239470cbe547dfe4b1ce7b2fc33df",
+                email: userEmailRecord,
+                amount: finalAmountInKobo,
+                currency: "NGN",
+
+                onSuccess: function (response) {
+                    localStorage.setItem('walletFunded', 'true');
+                    localStorage.setItem('lastFundingReference', response.reference || '');
+                    localStorage.setItem('lastFundingAmount', finalNumericAmount.toString());
+                    showToast("Payment successful. Transaction Reference: " + response.reference, "success");
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 800);
+                },
+
+                onClose: function () {
+                    showToast("Transaction cancelled. Your wallet was not funded.", "info");
+                }
+            });
+
+            paystack.openIframe();
+        });
+    });
+</script>
+
+</html>

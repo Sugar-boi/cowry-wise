@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background: linear-gradient(180deg, #F4F8FC 0%, #FFFFFF 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px;
+    gap: 30px;
+}
+
+/* Left Interactive Column */
+.left-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.main-heading {
+    font-size: 44px;
+    color:#173E74;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 35px;
+    letter-spacing: -0.5px;
+}
+
+.sub-heading {
+    font-size: 14px;
+    color: #7D8E9E;
+    margin-bottom: 15px;
+}
+
+/* Dynamic Numeric Typography Sizing Styling */
+.amount-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-left: 90px; */
+    color:#173E74;
+    margin-bottom: 10px;
+    
+    
+    
+}
+
+.naira-symbol {
+    font-size: 40px;
+    font-weight: 500;
+    margin-right: 4px;
+    color: #173E74;
+ 
+     
+}
+
+#amountInput {
+    font-size: 40px;
+    font-weight: 500;
+    color: #173E74;
+    border: none;
+    /* background: transparent; */
+    outline: none;
+    width: 100px;
+    /* max-width: 300px; */
+    /* text-align: start; */
+}
+
+.amount-container input::placeholder {
+     color: #173E74;
+}
+
+/* Feedback Element States */
+.error-msg {
+    color: #E53E3E;
+    font-size: 13px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    display: none; /* Initial state hidden */
+}
+
+.fee-badge {
+    background-color: #EBF8FF;
+    color: #2B6CB0;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    display: none; /* Initial state hidden */
+    border: 1px solid #BEE3F8;
+}
+
+.fee-badge span {
+    font-weight: 700;
+}
+
+/* Controls */
+.control-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+#fundWalletBtn {
+    width: 260px;
+    height: 48px;
+    background-color: #0066F5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 102, 245, 0.2);
+    transition: background-color 0.2s ease;
+}
+
+#fundWalletBtn:hover {
+    background-color: #0052C7;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #0066F5;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+
+
+.right-section img {
+    width: 100%;
+    max-width: 400px;
+    margin-top: -80px;
+}
+ 
+
+.locked {
+    background-color: #E6F2FF;
+    color: #0066F5;
+    transform: rotate(-2deg);
+    left: 125px;
+    top: 30px;
+    z-index: 3;
+    box-shadow: 0 12px 30px rgba(0, 102, 245, 0.12);
+}
+
+.circles {
+    background-color: #F3E8FF;
+    color: #6B46C1;
+    transform: rotate(10deg);
+    left: 235px;
+    top: 25px;
+    z-index: 2;
+}
+
+.fan-img {
+    width: 100%;
+    height: 110px;
+    object-fit: contain;
+}
+
+.legal-footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #A2B3C2;
+    letter-spacing: 0.8px;
+}
+
+/* Mobile Screen Responsiveness */
+@media (max-width: 850px) {
+    .main-container {
+        flex-direction: column-reverse;
+        gap: 40px;
+        padding-top: 30px;
+    }
+    .main-heading { font-size: 32px; }
+    .graphics-fan-wrapper {
+        transform: scale(0.85);
+        height: 240px;
+        margin-bottom: -30px;
+    }
+}

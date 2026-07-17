@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create PIN Modal</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="EnterPin.css">
+
+  <script>
+    // Route Protection - Redirect if not authenticated
+    (function() {
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      
+      // Check if user has completed profile (has firstName from complete-profile.html)
+      if (!userData || !userData.firstName || !userData.password) {
+        // User hasn't completed profile - redirect to login
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 500);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="pin-modal">
+    <div class="icon-container">
+      <svg width="40" height="46" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 10h-1V7c0-3.31-2.69-6-6-6S6 3.31 6 7v3H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V12c0-1.1-.9-2-2-2zm-7 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm4.1-8H7.9V7c0-2.26 1.84-4.1 4.1-4.1s4.1 1.84 4.1 4.1v3z" fill="#003366"/>
+      </svg>
+    </div>
+
+    <h1>Create PIN</h1>
+    <p class="subtitle">Your PIN adds an extra layer of security to your Cowrywise account</p>
+
+    <form id="pinForm">
+      <div class="pin-section">
+        <label>Create your PIN</label>
+        <div class="pin-input-group" id="createPinGroup">
+          <input type="password" maxlength="1" pattern="\d*" inputmode="numeric" required />
+          <input type="password" maxlength="1" pattern="\d*" inputmode="numeric" required />
+          <input type="password" maxlength="1" pattern="\d*" inputmode="numeric" required />
+          <input type="password" maxlength="1" pattern="\d*" inputmode="numeric" required />
+        </div>
+      </div>
+
+      <div class="pin-section">
+        <label>Confirm your PIN</label>
+        <div class="pin-input-group" id="confirmPinGroup">
+          <input type="password" maxlength="1" pattern="\d*" inputmode="numeric" required />
+          <input type="password" maxlength="1" pattern="\d*" inputmode="numeric" required />
+          <input type="password" maxlength="1" pattern="\d*" inputmode="numeric" required />
+          <input type="password" maxlength="1" pattern="\d*" inputmode="numeric" required />
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Create PIN</button>
+    </form>
+  </div>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script>
+    // Auto-focus functionality across the PIN input boxes
+const setups = ['#createPinGroup', '#confirmPinGroup'];
+
+setups.forEach(groupId => {
+  const inputs = document.querySelectorAll(`${groupId} input`);
+  
+  inputs.forEach((input, index) => {
+    // Listen for input to move forward
+    input.addEventListener('input', (e) => {
+      if (input.value.length === 1 && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    });
+
+    // Listen for backspace to move backward
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && input.value.length === 0 && index > 0) {
+        inputs[index - 1].focus();
+      }
+    });
+  });
+});
+
+// Validation on form submission
+document.getElementById('pinForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+
+  // Combine values of the first row
+  const createInputs = document.querySelectorAll('#createPinGroup input');
+  let firstPin = "";
+  createInputs.forEach(input => firstPin += input.value);
+
+  // Combine values of the second row
+  const confirmInputs = document.querySelectorAll('#confirmPinGroup input');
+  let secondPin = "";
+  confirmInputs.forEach(input => secondPin += input.value);
+
+  const submitBtn = document.getElementById('submitBtn')
+
+  // Validation Check
+  if (firstPin !== secondPin) {
+    Toastify({
+      text: "Error: PIN numbers do not match!",
+      duration: 4000,
+      gravity: "top",
+      position: "center",
+      style: {
+        background: "#e74c3c",
+        color: "white",
+        padding: "8px 12px", 
+        fontSize: "14px",
+        width: "250px",
+        maxWidth: "100%",
+        borderRadius: "6px"
+      }
+    }).showToast();
+     
+  } else {
+
+  // Success Case - Save PIN
+  const currentUserData = JSON.parse(localStorage.getItem('userData')) || {};
+  const allUserAccounts = JSON.parse(localStorage.getItem('allUserAccounts')) || [];
+  const existingAccountIndex = allUserAccounts.findIndex(acc => acc.email === currentUserData.email);
+  const updatedUserData = {
+    ...currentUserData,
+    pin: firstPin
+  };
+
+  if (existingAccountIndex >= 0) {
+    allUserAccounts[existingAccountIndex] = {
+      ...allUserAccounts[existingAccountIndex],
+      ...updatedUserData
+    };
+  } else {
+    allUserAccounts.push(updatedUserData);
+  }
+
+  const fullName = [updatedUserData.firstName, updatedUserData.lastName].filter(Boolean).join(' ').trim();
+  localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  localStorage.setItem('userPin', firstPin);
+  localStorage.setItem('allUserAccounts', JSON.stringify(allUserAccounts));
+  localStorage.setItem('currentUserName', fullName || updatedUserData.email || 'User');
+  localStorage.setItem('userDisplayName', fullName || updatedUserData.email || 'User');
+  
+  Toastify({
+    text: "PIN created successfully.",
+    duration: 4000,
+    gravity: "top",
+    position: "center",
+    style: {
+      background: "green",
+      color: "white",
+      padding: "8px 12px", 
+      fontSize: "14px",
+      textAlign: "center",
+      width: "250px",
+      maxWidth: "100%",
+      borderRadius: "6px"
+    }
+  }).showToast();
+  setTimeout(() => {
+     window.location.href = "welcome.html"
+  }, 500);
+ 
+}
+
+  this.reset();
+  createInputs[0].focus(); 
+});
+
+ 
+  </script>
+
+</body>
+</html>

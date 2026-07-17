@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cowrywise - Select Option</title>
+    <link rel="stylesheet" href="welcome.css">
+
+    <script>
+        // Route Protection - Redirect if not authenticated
+        (function () {
+            const userData = JSON.parse(localStorage.getItem('userData') || 'null');
+            const userPin = localStorage.getItem('userPin');
+            const hasSavedIdentity = localStorage.getItem('currentUserName') || userData?.firstName || userData?.displayName || userData?.email;
+
+            if (!userData || !hasSavedIdentity || !userPin) {
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 500);
+            }
+        })();
+    </script>
+</head>
+
+<body>
+
+    <main class="main-container">
+
+        <section class="text-section">
+            <p class="welcome-msg">Welcome, <span id="dynamicName" class="username"></span></p>
+            <h1 class="main-heading">What would you<br>like to do?</h1>
+        </section>
+
+        <section class="interactive-section">
+            <div class="cards-wrapper">
+
+                <div class="selection-card" data-type="savings">
+                    <h2 class="card-title text-savings">Savings</h2>
+                    <img src="images/imageye___-_imgi_1_savings.webp" alt="Savings Safe" class="card-image">
+                </div>
+
+                <div class="selection-card" data-type="investments">
+                    <h2 class="card-title text-investments">Investments</h2>
+                    <img src="images/imageye___-_imgi_2_invest.webp" alt="Investments Basket" class="card-image">
+                </div>
+
+            </div>
+
+            <button id="continueBtn" type="button" disabled>Continue</button>
+
+            <p class="social-proof" id="message">
+                <span class="heart-icon">💙</span> Over 2 million people build wealth on Cowrywise.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="legal-footer">
+        LICENSED BY THE SEC
+    </footer>
+
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const nameSpan = document.getElementById("dynamicName");
+        const cards = document.querySelectorAll(".selection-card");
+        const continueBtn = document.getElementById("continueBtn");
+        const message = document.getElementById("message");
+
+        const userData = JSON.parse(localStorage.getItem('userData') || 'null');
+        const savedName = localStorage.getItem("currentUserName") || userData?.firstName || userData?.displayName || localStorage.getItem("userDisplayName");
+        const savedEmail = localStorage.getItem("userEmail") || userData?.email;
+
+        if (savedName) {
+            nameSpan.textContent = savedName + "!";
+        } else if (savedEmail && savedEmail.includes("@")) {
+            const extractedName = savedEmail.split("@")[0];
+            const formattedName = extractedName.charAt(0).toUpperCase() + extractedName.slice(1);
+            nameSpan.textContent = formattedName + "!";
+        } else if (savedEmail) {
+            nameSpan.textContent = savedEmail;
+        } else {
+            nameSpan.textContent = "User!";
+        }
+
+        const cardMessages = {
+            savings: "💙Build discipline and earn competitive return",
+            investments: "💙Invest in stocks, mutual friend and watch your money grow"
+        };
+
+        cards.forEach((card) => {
+            card.addEventListener("click", () => {
+                if (card.classList.contains("selected")) return;
+
+                cards.forEach((item) => item.classList.remove("selected"));
+                card.classList.add("selected");
+
+                const selectedType = card.getAttribute("data-type");
+                message.textContent = cardMessages[selectedType] || "💙Over 2 million people build wealth on Cowrywise.";
+
+                continueBtn.disabled = false;
+                continueBtn.classList.add("ready-state");
+            });
+        });
+
+        continueBtn.addEventListener("click", () => {
+            const activeSelection = document.querySelector(".selection-card.selected");
+            if (activeSelection) {
+                const selectedType = activeSelection.getAttribute("data-type");
+                console.log(`User confirmed option selection: ${selectedType}`);
+
+                localStorage.setItem('selectedGoalType', selectedType);
+
+                if (selectedType === "investments") {
+                    window.location.href = "investment.html";
+                } else {
+                    window.location.href = "saving.html";
+                }
+            }
+        });
+    });
+</script>
+
+</html>

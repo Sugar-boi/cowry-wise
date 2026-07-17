@@ -8,14 +8,24 @@
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="style1.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="icon" href="./cowry.webp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Document</title>
 </head>
 
 <body>
     <div class="" style="position: relative;">
         <div class="nav-img mb-5">
-            <img src="download.svg" width="180">
+            <img src="images/download.svg" width="180">
         </div>
+
+        <script>
+            window.showLoaderAndRedirect = function(url) {
+                sessionStorage.setItem('nextPage', url);
+                window.location.href = 'loader.html';
+            }
+        </script>
 
 
 
@@ -38,12 +48,12 @@
 
                             <div class="d-flex flex-row gap-3 mb-3 social-row  w-100">
 
-                                <a href="#" class="social-btn w-50">
-                                    <img src="download (1).svg" alt="">
+                                <a href="#" class="social-btn w-50" onclick="googleSign()">
+                                    <img src="images/download (1).svg" alt="">
                                     Sign up with Google
                                 </a>
                                 <a href="#" class="social-btn  w-50">
-                                    <img src="download (3).svg"> Sign in with apple </a>
+                                    <img src="images/download (3).svg"> Sign in with apple </a>
                             </div>
                             <div class=" d-flex align-items-center  or-divider my-4">
                                 <hr class="flex-grow-1 m-0">
@@ -101,7 +111,179 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous">
+</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC-sUp6Z-ySSQu8y68MvXXPzmfxSWx3zXs",
+        authDomain: "level1-project-cowry-wise.firebaseapp.com",
+        projectId: "level1-project-cowry-wise",
+        storageBucket: "level1-project-cowry-wise.firebasestorage.app",
+        messagingSenderId: "104220736652",
+        appId: "1:104220736652:web:f5ea8f03db4ba3b9870fa9",
+        measurementId: "G-8W74RJJQHW"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    window.googleSign = async function () {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            // Check if user has an account in the persistent accounts list
+            const allUserAccounts = JSON.parse(localStorage.getItem('allUserAccounts')) || [];
+            const existingAccount = allUserAccounts.find(account => account.email === user.email);
+
+            // If user has a complete account (with profile and PIN created)
+            if (existingAccount && existingAccount.firstName && existingAccount.password && existingAccount.pin) {
+                // User has complete account - log them in to dashboard
+                const updatedData = {
+                    ...existingAccount,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                    uid: user.uid,
+                    isGoogleAuth: true,
+                    lastLogin: new Date().toISOString()
+                };
+
+                localStorage.setItem('userData', JSON.stringify(updatedData));
+                localStorage.setItem('userEmail', user.email);
+                localStorage.setItem('userPin', existingAccount.pin);
+
+                window.showLoaderAndRedirect('dashboard.html');
+            } else if (existingAccount && existingAccount.firstName && existingAccount.password) {
+                const updatedData = {
+                    ...existingAccount,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                    uid: user.uid,
+                    isGoogleAuth: true,
+                    lastLogin: new Date().toISOString()
+                };
+
+                localStorage.setItem('userData', JSON.stringify(updatedData));
+                localStorage.setItem('userEmail', user.email);
+                window.showLoaderAndRedirect('EnterPin.html');
+            } else {
+                // Account does not exist - show error and stay on login page
+                Toastify({
+                    text: "No account found. Please sign up first.",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    style: {
+                        background: "#e74c3c",
+                        color: "white"
+                    }
+                }).showToast();
+
+                // Clear any temporary data
+                localStorage.removeItem('userData');
+            }
+        } catch (error) {
+            console.error("Google Sign In Error:", error);
+        }
+    };
+
+    // Handle email/password login
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('pass').value.trim();
+
+        // Validate inputs
+        if (!email || !password) {
+            Toastify({
+                text: "Please fill in all fields",
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                style: {
+                    background: "#e74c3c",
+                    color: "white"
+                }
+            }).showToast();
+            return;
+        }
+
+        // Get all stored user accounts
+        const allUserAccounts = JSON.parse(localStorage.getItem('allUserAccounts')) || [];
+
+        // Find matching account
+        const matchingAccount = allUserAccounts.find(account =>
+            account.email === email && account.password === password
+        );
+
+        if (matchingAccount) {
+            // User found - set as current user and go to dashboard
+            const savedPin = matchingAccount.pin || localStorage.getItem('userPin');
+            const currentUserData = {
+                ...matchingAccount,
+                lastLogin: new Date().toISOString()
+            };
+
+            localStorage.setItem('userData', JSON.stringify(currentUserData));
+            localStorage.setItem('userEmail', email);
+
+            if (savedPin) {
+                localStorage.setItem('userPin', savedPin);
+            }
+
+            Toastify({
+                text: "Login successful!",
+                duration: 2000,
+                gravity: "top",
+                position: "center",
+                style: {
+                    background: "green",
+                    color: "white"
+                }
+            }).showToast();
+
+            setTimeout(() => {
+                window.showLoaderAndRedirect('dashboard.html');
+            }, 500);
+        } else {
+            Toastify({
+                text: "Invalid Credentials",
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                style: {
+                    background: "#e74c3c",
+                    color: "white"
+                }
+            }).showToast();
+        }
+    });
+
+    // Password toggle visibility
+    document.getElementById('togglePassword').addEventListener('click', () => {
+        const passInput = document.getElementById('pass');
+        const icon = document.getElementById('togglePassword');
+
+        if (passInput.type === 'password') {
+            passInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+</script>
 
 </html>
 

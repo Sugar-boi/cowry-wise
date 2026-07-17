@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <link rel="icon" href="./cowry.webp">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff; /* Make the background completely white */
+        }
+        
+        img {
+            width: 250px; /* Make the spinner bigger */
+            filter: brightness(1.2) contrast(1.2); /* Bleach any light gray background to pure white */
+            mix-blend-mode: multiply; /* Make the pure white transparent so only the dark spinner remains */
+        }
+    </style>
+</head>
+<body>
+    <img src="images/gif-logo-loading.gif" alt="Loading...">
+    
+    <script>
+        setTimeout(() => {
+            const next = sessionStorage.getItem('nextPage') || 'dashboard.html';
+            window.location.href = next;
+        }, 3000); // 3 seconds delay
+    </script>
+</body>
+</html>
